@@ -4,8 +4,17 @@ import { usersService } from "../services/users-service";
 
 export const authTokenMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const auth = req.headers.authorization as string;
+  const refreshToken = req.cookies.refreshToken;
+
   if (!auth) {
     res.sendStatus(401);
+    return;
+  }
+  const checkRefreshToken = await jwtService.checkRefreshToken(refreshToken);
+
+  if (!checkRefreshToken) {
+    res.sendStatus(401);
+
     return;
   }
 
@@ -19,6 +28,5 @@ export const authTokenMiddleware = async (req: Request, res: Response, next: Nex
     return;
   }
 
-  
   res.sendStatus(401);
 };

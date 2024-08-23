@@ -4,8 +4,9 @@ import { UserInputModel, UserViewModel2, userDb } from "../types/typeUser";
 import bcrypt from "bcrypt";
 import { randomUUID } from "crypto";
 import { add } from "date-fns";
-import nodemailer from "nodemailer";
 import { emailAdapter } from "../adapter/emailAdapter";
+import { repositryAuth } from "../repository/repositryAuth";
+import { CustomRateLimitT } from "../types/generalType";
 
 export const authService = {
   async creatUser(userData: UserInputModel): Promise<UserViewModel2> {
@@ -91,5 +92,13 @@ export const authService = {
     }
 
     return true;
+  },
+  async addRateLlimit(metaData: CustomRateLimitT) {
+    await repositryAuth.addRateLlimit(metaData);
+  },
+  async checkingNumberRequests(metaData: CustomRateLimitT) {
+    const data = new Date(metaData.date.getTime() - 10000);
+    const result = await repositryAuth.checkingNumberRequests(metaData, data);
+    return result;
   },
 };

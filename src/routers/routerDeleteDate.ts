@@ -10,6 +10,11 @@ export const routerDeletDate = () => {
     dbT.getCollections().userCollection.deleteMany({});
     dbT.getCollections().commentCollection.deleteMany({});
     dbT.getCollections().refreshTokenBlackList.deleteMany({});
+    dbT.getCollections().sesionsUser.deleteMany({});
+    dbT.getCollections().customRateLimit.deleteMany({});
+
+
+
 
     res.sendStatus(204);
     return;

@@ -7,6 +7,7 @@ dotenv.config();
 
 const startApi = async () => {
   await dbT.run(SETTINGS.MONGO_URL);
+  app.set('trust proxy', true)
 
   app.listen(SETTINGS.PORT, () => {
     console.log(`server   start`);
